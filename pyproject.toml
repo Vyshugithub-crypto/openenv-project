@@ -1,0 +1,9 @@
+[project]
+name = "openenv-project"
+version = "0.1.0"
+description = "Simple OpenEnv environment"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic"
+]

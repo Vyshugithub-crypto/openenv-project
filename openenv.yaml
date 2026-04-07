@@ -1,12 +1,29 @@
 name: simple-task-env
-version: 1.0
+description: Simple task environment
+
+version: "1.0"
 
 endpoints:
-  reset: /reset
-  step: /step
-  state: /state
+  reset: "/reset"
+  step: "/step"
+  state: "/state"
 
-tasks:
-  - easy
-  - medium
-  - hard
+action_space:
+  type: object
+  properties:
+    action:
+      type: string
+      enum: ["work", "rest"]
+  required: ["action"]
+
+observation_space:
+  type: object
+  properties:
+    tasks_left:
+      type: integer
+    energy:
+      type: integer
+  required: ["tasks_left", "energy"]
+
+reward:
+  type: number

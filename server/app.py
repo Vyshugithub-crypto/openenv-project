@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from env import SimpleEnv
+import uvicorn
 
 app = FastAPI()
 env = SimpleEnv()
@@ -16,3 +17,9 @@ def step(action: dict):
 @app.get("/state")
 def state():
     return env.state()
+
+def main():
+    uvicorn.run(app, host="0.0.0.0", port=7860)
+
+if __name__ == "__main__":
+    main()

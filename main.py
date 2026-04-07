@@ -2,19 +2,36 @@ from fastapi import FastAPI
 from env import SimpleEnv
 
 app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "OpenEnv API running"}
+
 env = SimpleEnv()
 
-@app.get("/reset")
+# ✅ FIXED RESET (POST + no params)
+@app.post("/reset")
 def reset():
+    return env.reset()
+
+# OPTIONAL: also allow GET (extra safe)
+@app.get("/reset")
+def reset_get():
     return env.reset()
 
 @app.get("/state")
 def state():
     return env.state()
 
+# ✅ FIXED STEP (accept JSON body)
+from pydantic import BaseModel
+
+class ActionInput(BaseModel):
+    action: str
+
 @app.post("/step")
-def step(action: str):
-    s, r, d = env.step(action)
+def step(input: ActionInput):
+    s, r, d = env.step(input.action)
     return {"state": s, "reward": r, "done": d}
 
 @app.get("/tasks")
